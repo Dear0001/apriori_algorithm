@@ -2,6 +2,8 @@
 import pandas as pd
 from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
+import matplotlib.pyplot as plt
+import mpld3
 
 # Step 1: Preprocess the Data
 data = {
@@ -50,10 +52,22 @@ print("\nFiltered Rules for Apple and Citrus:")
 print(filtered_rules)
 
 # Interpret and use these rules for product recommendations
-# Example: Recommend products based on the rules
+# Recommend products based on the rules
 if not filtered_rules.empty:
     print("\nProduct Recommendations:")
     for index, rule in filtered_rules.iterrows():
         print(f"If a customer buys {rule['antecedents']}, they are likely to buy {rule['consequents']} (Confidence: {rule['confidence']:.2f})")
 else:
     print("\nNo specific recommendations found for Apple or Citrus.")
+
+# Step 5: Visualize Association Rules
+# Plot the rules using matplotlib
+plt.figure(figsize=(10, 6))
+plt.scatter(rules['support'], rules['confidence'], alpha=0.5)
+plt.xlabel('Support')
+plt.ylabel('Confidence')
+plt.title('Association Rules: Support vs Confidence')
+plt.grid(True)
+
+# Display the plot in the browser using mpld3
+mpld3.show()
